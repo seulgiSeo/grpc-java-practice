@@ -3,6 +3,7 @@ package org.example.grpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.Status;
+import io.grpc.protobuf.services.ProtoReflectionService;
 import io.grpc.stub.ServerCallStreamObserver;
 import io.grpc.stub.StreamObserver;
 
@@ -44,7 +45,7 @@ public class HelloStreamingServer {
 
                             Thread.sleep(100);
 
-                            String message = "Hello" + name;
+                            String message = "Hello " + name;
                             logger.info("<-- " + message);
                             HelloReply reply = HelloReply.newBuilder().setMessage(message).build();
                             responseObserver.onNext(reply);
@@ -81,6 +82,7 @@ public class HelloStreamingServer {
         final Server server = ServerBuilder
                 .forPort(8080)
                 .addService(svc)
+                .addService(ProtoReflectionService.newInstance())
                 .build()
                 .start();
 
