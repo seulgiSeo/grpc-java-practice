@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package org.example.grpc.chat;
+
+option java_multiple_files = true;
+option java_outer_classname = "ChatProto";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service Chat {
+
+  // EnterChat 채팅방 입장.
+  rpc EnterChat(EnterRequest) returns (google.protobuf.Empty) {}
+  // Chat 메세지 전송과 응답.
+  rpc Chat(stream ChatMessage) returns (stream ChatMessage) {}
+}
+
+// EnterRequest 채팅방 입장 요청.
+message EnterRequest {
+ string nickname = 1;
+}
+
+// ChatMessage 메세지 정보.
+message ChatMessage {
+  string nickname = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
